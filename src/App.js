@@ -1,26 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react"
+import {
+  BrowserRouter as Router,
+  Route,
+  Redirect,
+  Switch
+} from "react-router-dom"
+import "./App.css"
+import Main from "./Main"
+import Incrementer from "./Incrementer"
+import Decrementer from "./Decrementer"
+import { ValueContext } from "./contexts"
 
-function App() {
+const App = () => {
+  const [value, setValue] = useState(0)
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <ValueContext.Provider value={{ value, setValue }}>
+      <Router>
+        <Route path="/" component={Main} />
+        <Route path="/increment" exact component={Incrementer} />
+        <Route path="/decrement" exact component={Decrementer} />
+      </Router>
+    </ValueContext.Provider>
+  )
 }
 
-export default App;
+export default App
